@@ -1,16 +1,14 @@
-# taxumap
+# hUMAP
 
-**Visualize structure in large microbiome datasets. Implements Uniform Manifold Approximation and Projection (UMAP) with phylogenetic hierarchy.**
+**Visualize structure in large microbiome datasets. Implements Uniform Manifold Approximation and Projection (UMAP) with hierarchy.**
 
 ## Installation
-
-> *Notice:* taxumap will soon be available on both PyPi and Bioconda for installation via pip and conda. In the mean time, please use `pip install -e` as described below to install in developer mode.
 
 
 ## 
 ```
-git clone https://github.com/jsevo/phylo-umap.git
-pip install -e phylo-umap
+git clone https://github.com/granthussey/humap.git
+pip install -e humap
 ```
 
 ## Usage
@@ -18,44 +16,44 @@ pip install -e phylo-umap
 ### Command line:
 
 ```bash
-python phylo-umap/run_taxumap.py -t taxonomy.csv -m microbiota_table.csv -n 15
+python run_humap.py -t hierarchy.csv -m data.csv -n 15
 ```
-Your embedding will be saved in the `phylo-umap/results/` folder. 
+Your embedding will be saved in the `humap/results/` folder. 
 
 
 ### Python:
 ```python
-from taxumap.taxumap import Taxumap
+from humap.humap import Humap
 
-##### Initialize Taxumap object #####
+##### Initialize hUMAP object #####
 
 # From file
-t = Taxumap(fpt='path/to/taxonomy.csv', 
-        fpx='path/to/microbiota_table.csv')
+h = Humap(hierarchy='path/to/hierarchy.csv', 
+        data='path/to/data.csv')
 
 # OR #
 
 # From local variable scope
-t = Taxumap(taxonomy=df_taxonomy, 
-        rel_abundances=df_rel_abundances)
+h = Humap(hierarchy=df_hierarchy, 
+        data=df)
 
 
 ##### Run the transformation and look at the results #####
 
 # Transform the data (an inplace function)
-t.transform_self(neigh=13)
+h.transform_self(neigh=13)
 
 # Raw embedding dataframe
-t.df_embedding
+h.df_embedding
 
 # "Which taxon dominate each sample?" dataframe
-t.df_dominant_taxon
+h.df_dominant_level
 
 # Visualize the embedding
-t.scatter()
+h.scatter()
 
 # Save the embedding
-t.save_embedding() 
+h.save_embedding() 
 
 ```
 ---
@@ -90,40 +88,33 @@ See this link. (In progress)
 ---
 
 ## Details
-Two tables are required: the microbiota data and a taxonomy table.
+Two tables are required: the data table and a hierarchy table.
 
-The ***microbiota data file*** (`microbiota_table.csv`) must have a column with sample indices labeled 'index_column'. The remaining columns are expected to be the lowest level taxa (OTU/ASV/...):
+The ***data file*** (`data.csv`) must have a column with sample indices labeled 'index_column'. The remaining columns are expected to be the lowest level hierarchy (e.g., OTU/ASV/... for microbiome data):
 
 | index_column | ASV1 | ASV2 |
 | :--- | :---: | :---: |
 |'sample1'| 0.5| 0.5|
 |'sample2'|0.2| 0.8|
 
-You can see that the data is *compositional*, or that each row sums to 1. (This kind of table may also be referred to as a *relative abundance* or `rel_abundances` for that reason.) 
 
-The ***taxonomy table*** (`taxonomy.csv`) is expected to resolve higher taxonomic groups for the columns in the microbiota table. The columns of this table should contain taxonomic levels. They should be ordered from left to right in decreasing taxonomic hierarchy, e.g.
+The ***hierarchy table*** (`hierachy.csv`) is expected to resolve higher hierarchical groups for the columns in the data table. The columns of this table should contain hierarchical levels. They should be ordered from left to right in decreasing hierarchy, e.g.
 
 | kingdom    | phylum       | ...   | ASV    |
 | :---       | :---:        | :---: | :---:  |
 | 'Bacteria' | 'Firmicutes' | ...   | 'ASV1' |
 
-Unless designated by the `-t` and `-m` flags, the data is expected to be within the `data/` folder. Results are written to the `phylo-umap/results/` folder.
+Unless designated by the `-t` and `-m` flags, the data is expected to be within the `data/` folder. Results are written to the `humap/results/` folder.
 
 ---
 
 ## Roadmap
 
-[1] As presented here, taxUMAP is used for visualizing large microbiota datasets. However, it has much broader applications to improving upon UMAP by informing the algorithm of the hierarchical structure of data.
-
-We will be updating this package to include examples and adaptations needed for such use cases.
-
-[2] We will be updating general user issues. Please submit a 
-
 ---
 
 ## Example data
 
-A dataset provided by Axel Olin works well for those wanting to try out the features of taxUMAP or to better understand how to format your own data properly.
+A dataset provided by Axel Olin works well for those wanting to try out the features of hUMAP or to better understand how to format your own data properly.
 
 * [Link to original publication](https://pubmed.ncbi.nlm.nih.gov/30142345/)
 * [Link to the dataset](http://dx.doi.org/10.17632/ynhdrcxtcc.1)
@@ -134,7 +125,6 @@ Publication
 Dataset
 > Olin, Axel (2018), “Stereotypic Immune System Development in Newborn Children”, Mendeley Data, v1
 
-Solely for convenience, I am providing in the `taxumap/example_data` directory a pre-cleaned version of this dataset, as allowed under the `CC BY 4.0` license. I also provide a Jupyter Notebook to see how the data was cleaned.
 
 ## License
 

@@ -114,3 +114,7 @@ taxumap/todo.md
 
 # manuscript notebooks are published separately
 taxumap-manuscript-notebooks/*
+
+humap/example_data
+humap/test_notebooks
+humap/archive

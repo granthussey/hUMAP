@@ -4,14 +4,13 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="taxumap",
-    version="0.1",
+    name="hUMAP",
+    version="0.2",
     description="UMAP visualization for microbiota compositions with taxonomic structure.",
-    url="http://github.com/jsevo/taxumap",
-    author="Jonas Schluter",
-    author_email="jonas.schluter+github@gmail.com",
+    url="http://github.com/granhussey/humap",
+    author="Grant Hussey",
     license="MIT License",
-    packages=["taxumap"],
+    packages=["humap"],
     install_requires=[
         "matplotlib",
         "pandas",
@@ -21,6 +20,7 @@ setup(
         "numba",
         "umap-learn",
     ],
+    scripts=["run_humap.py"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
